@@ -1,60 +1,57 @@
 #include "gamestateplayingctrl.h"
+#include "gamestatewinningctrl.h"
+#include "gamestatelosingctrl.h"
 #include "mainwindow.h"
 #include "gameworld.h"
 #include "gamemap.h"
 #include "gameblock.h"
 #include "envir.h"
+#include "bccvtqtutils.h"
 #include <QMouseEvent>
 #include <QDebug>
 namespace ms
 {
+
     GameStatePlayingController::GameStatePlayingController(GameStateController& ctrl)
-        : GameStateController (ctrl)
+        : GameStateController (ctrl), _ruler(*getGameMap())
     {
-
+        _ruler.openSingleBlock(_pImpl->_startPosition.get()[0]);
+        getMainWindow()->repaint();
     }
 
-    void GameStatePlayingController::processMouseMoveEvent(QMouseEvent* event)
+    void GameStatePlayingController::processMouseDoubleClickEvent(QMouseEvent* event)
     {
-        Size blockSize = getEnvironment()->getBlockSize();
-        Point p(event->x() / blockSize.width(),
-                event->y() / blockSize.height());
-        if(p != _lastSelectedPos)
-            getGameWorld()->getMap()->
-                at(_lastSelectedPos.y(), _lastSelectedPos.x())->unselect();
-        getGameWorld()->getMap()->at(p.y(), p.x())->select();
-        QRect unSelectedButtonRect(_lastSelectedPos.x() * blockSize.width(),
-            _lastSelectedPos.y() * blockSize.height(),
-            blockSize.width(), blockSize.height());
-
-        QRect selectedButtonRect(p.x() * blockSize.width(),
-            p.y() * blockSize.height(),
-            blockSize.width(), blockSize.height());
-
-        getMainWindow()->repaint(unSelectedButtonRect);
-        getMainWindow()->repaint(selectedButtonRect);
-        _lastSelectedPos = p;
-    }
-
-    void GameStatePlayingController::processMousePressEvent(QMouseEvent*)
-    {
-
+        Point p = normalizeToButtonCoordinate(event->x(), event->y());
+        if(event->button() == Qt::LeftButton)
+            _ruler.open3x3Blocks(p);
+        getMainWindow()->repaint();
+        if(!_ruler.isAlive())
+            setGameCtrl(new GameStateLosingController(*this));
+        else if(_ruler.isWinning())
+            setGameCtrl(new GameStateWinningController(*this));
     }
 
     void GameStatePlayingController::processMouseReleaseEvent(QMouseEvent* event)
     {
-        Size blockSize = getEnvironment()->getBlockSize();
-        Point p(event->x() / blockSize.width(),
-                event->y() / blockSize.height());
-        QRect openedButtonRect(p.x() * blockSize.width(),
-            p.y() * blockSize.height(),
-            blockSize.width(), blockSize.height());
-        getGameWorld()->getMap()->at(p.y(), p.x())->open();
-        getMainWindow()->repaint(openedButtonRect);
-    }
-
-    void GameStatePlayingController::processPaintEvent()
-    {
-        getMainWindow()->paintGameWorld(getGameWorld().get());
+        Point p = normalizeToButtonCoordinate(event->x(), event->y());
+        switch(event->button())
+        {
+        case Qt::LeftButton:
+            _ruler.openSingleBlock(p);
+            break;
+        case Qt::MidButton:
+            _ruler.open3x3Blocks(p);
+            break;
+        case Qt::RightButton:
+            _ruler.toggleFlagToBlock(p);
+            break;
+        default:
+            break;
+        }
+        getMainWindow()->repaint();
+        if(!_ruler.isAlive())
+            setGameCtrl(new GameStateLosingController(*this));
+        else if(_ruler.isWinning())
+            setGameCtrl(new GameStateWinningController(*this));
     }
 }

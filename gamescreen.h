@@ -16,6 +16,7 @@ namespace ms
         void initGameEnvir(Environment* envir);
         void paintEvent(QPaintEvent *);
         void mousePressEvent(QMouseEvent *);
+        void mouseDoubleClickEvent(QMouseEvent *);
         void mouseReleaseEvent(QMouseEvent *);
         void mouseMoveEvent(QMouseEvent*);
         void paintGameWorld(GameWorld* world);

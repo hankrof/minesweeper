@@ -1,19 +1,25 @@
 #ifndef GAMESTATEPLAYINGCONTROLLER_H
 #define GAMESTATEPLAYINGCONTROLLER_H
 #include "gamestatectrl.h"
-#include "geometry.h"
+#include "gameruler.h"
+#include <QRect>
 namespace ms
 {
     class GameStatePlayingController : public GameStateController
     {
     public:
         GameStatePlayingController(GameStateController& ctrl);
-        void processMouseMoveEvent   (QMouseEvent*);
-        void processMousePressEvent  (QMouseEvent*);
+        void processMouseMoveEvent   (QMouseEvent* event)
+            { GameStateController::processMouseMoveEvent(event);  }
+        void processMousePressEvent  (QMouseEvent* event)
+            { GameStateController::processMousePressEvent(event); }
+        void processMouseDoubleClickEvent(QMouseEvent*);
         void processMouseReleaseEvent(QMouseEvent*);
-        void processPaintEvent()                   ;
+        void processPaintEvent()
+            { GameStateController::processPaintEvent();}
     private:
         Point _lastSelectedPos;
+        GameRuler _ruler;
     };
 }
 

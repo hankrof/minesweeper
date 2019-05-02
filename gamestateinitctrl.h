@@ -9,12 +9,14 @@ namespace ms
     {
     public:
         GameStateInitController(GameStateControllerContext* ctrl);
+        GameStateInitController(GameStateController& ctrl);
         void processMouseMoveEvent(QMouseEvent* event)
             { GameStateController::processMouseMoveEvent(event);}
         void processMousePressEvent(QMouseEvent* event)
             { GameStateController::processMousePressEvent(event);}
-        void processMouseReleaseEvent(QMouseEvent* event)
-            { GameStateController::processMouseReleaseEvent(event);}
+        void processMouseDoubleClickEvent(QMouseEvent* event)
+            { GameStateController::processMouseDoubleClickEvent(event);}
+        void processMouseReleaseEvent(QMouseEvent*);
         void processPaintEvent();
     };
 }

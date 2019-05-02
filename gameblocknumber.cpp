@@ -26,11 +26,21 @@ namespace ms
         return _number;
     }
 
+    bool GameBlockNumber::nearMines() const
+    {
+        return _number > 0;
+    }
+
     int GameBlockNumber::addNumber(int add)
     {
-        _number++;
+        _number+=add;
         loadImage(_number);
         return _number;
+    }
+
+    bool GameBlockNumber::isMine() const
+    {
+        return false;
     }
 
     std::shared_ptr<GameImage> GameBlockNumber::getOpenedImage() const

@@ -10,7 +10,9 @@ namespace ms
         GameBlockNumber(int number);
         GameBlockNumber& setNumber(int number);
         int number() const;
+        bool nearMines() const;
         int addNumber(int add);
+        bool isMine() const;
         std::shared_ptr<GameImage> getOpenedImage() const;
     private:
         void loadImage(int number);

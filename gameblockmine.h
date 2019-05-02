@@ -7,7 +7,9 @@ namespace ms
     {
     public:
         GameBlockMine();
+        bool nearMines() const;
         int addNumber(int);
+        bool isMine() const;
         std::shared_ptr<GameImage> getOpenedImage() const;
     private:
         std::shared_ptr<GameImage> _image;

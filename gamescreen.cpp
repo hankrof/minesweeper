@@ -8,6 +8,7 @@
 #include "envir.h"
 #include <QPainter>
 #include <QMouseEvent>
+#include <QDebug>
 namespace ms
 {
     GameScreen::GameScreen(GameStateControllerContext& ctrl, QWidget *parent)
@@ -34,6 +35,11 @@ namespace ms
     void GameScreen::mousePressEvent(QMouseEvent *event)
     {
         _ctrl.processMousePressEvent(event);
+    }
+
+    void GameScreen::mouseDoubleClickEvent(QMouseEvent *event)
+    {
+        _ctrl.processMouseDoubleClickEvent(event);
     }
 
     void GameScreen::mouseReleaseEvent(QMouseEvent *event)

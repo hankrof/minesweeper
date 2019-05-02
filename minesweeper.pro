@@ -29,7 +29,11 @@ SOURCES += main.cpp\
     gameworldbuilder.cpp \
     gamescreen.cpp \
     envir.cpp \
-    gamestateplayingctrl.cpp
+    gamestateplayingctrl.cpp \
+    gameruler.cpp \
+    gamestatewinningctrl.cpp \
+    gamestatelosingctrl.cpp \
+    gamedialog.cpp
 
 HEADERS  += mainwindow.h \
     gamectrl.h \
@@ -47,4 +51,8 @@ HEADERS  += mainwindow.h \
     gameworldbuilder.h \
     gamescreen.h \
     envir.h \
-    gamestateplayingctrl.h
+    gamestateplayingctrl.h \
+    gameruler.h \
+    gamestatewinningctrl.h \
+    gamestatelosingctrl.h \
+    gamedialog.h

@@ -10,8 +10,10 @@ namespace ms
     public:
         GameStateControllerContext();
         void setGameCtrl(GameStateController* ctrl);
+        void processRestartGame(bool choice);
         void processMouseMoveEvent(QMouseEvent* event);
         void processMousePressEvent(QMouseEvent* event);
+        void processMouseDoubleClickEvent(QMouseEvent* event);
         void processMouseReleaseEvent(QMouseEvent* event);
         void processPaintEvent();
     private:

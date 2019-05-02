@@ -13,6 +13,11 @@ namespace ms
         _ctrl.reset(ctrl);
     }
 
+    void GameStateControllerContext::processRestartGame(bool choice)
+    {
+        _ctrl->processRestartGame(choice);
+    }
+
     void GameStateControllerContext::processMouseMoveEvent(QMouseEvent* event)
     {
         _ctrl->processMouseMoveEvent(event);
@@ -21,6 +26,11 @@ namespace ms
     void GameStateControllerContext::processMousePressEvent(QMouseEvent* event)
     {
         _ctrl->processMousePressEvent(event);
+    }
+
+    void GameStateControllerContext::processMouseDoubleClickEvent(QMouseEvent* event)
+    {
+        _ctrl->processMouseDoubleClickEvent(event);
     }
 
     void GameStateControllerContext::processMouseReleaseEvent(QMouseEvent* event)

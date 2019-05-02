@@ -14,6 +14,11 @@ namespace ms
         GameBlock& unselect();
         GameBlock& toggleFlag();
         std::shared_ptr<GameImage> getImage() const;
+        bool isOpen() const;
+        bool openable() const;
+        bool flag() const;
+        virtual bool nearMines() const = 0;
+        virtual bool isMine() const = 0;
         virtual int addNumber(int add) = 0;
         virtual std::shared_ptr<GameImage> getOpenedImage() const = 0;
     private:

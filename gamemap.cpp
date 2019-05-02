@@ -1,7 +1,9 @@
 #include "gamemap.h"
 #include "gameblocknumber.h"
 #include "gameblockmine.h"
+#include <algorithm>
 #include <ctime>
+#include <set>
 namespace ms
 {
     GameMap::GameMap()
@@ -9,9 +11,10 @@ namespace ms
 
     }
 
-    GameMap::GameMap(std::size_t rows, std::size_t cols, std::size_t mines)
+    GameMap::GameMap(std::size_t rows, std::size_t cols, std::size_t mines, const Point &startPosition)
+        : _startPosition(startPosition)
     {
-        setup(rows, cols, mines);
+        setup(rows, cols, mines, startPosition);
     }
 
     GameMap::~GameMap()
@@ -57,8 +60,9 @@ namespace ms
         return *this;
     }
 
-    GameMap& GameMap::setup(std::size_t rows, std::size_t cols, std::size_t mines)
+    GameMap& GameMap::setup(std::size_t rows, std::size_t cols, std::size_t mines, const Point& startPosition)
     {
+        _startPosition = startPosition;
         return resize(rows, cols)
             .setupMines(mines)
             .determineNumbersByMines();
@@ -99,6 +103,38 @@ namespace ms
         return _elements[row][col];
     }
 
+    GameBlock* GameMap::at(const Point& p)
+    {
+        return _elements[p.y()][p.x()];
+    }
+
+    const GameBlock* GameMap::at(const Point& p) const
+    {
+
+        return _elements[p.y()][p.x()];
+    }
+
+    std::vector<std::size_t> GameMap::convertPointTo1DIndex(const std::vector<Point> &pts) const
+    {
+        std::vector<std::size_t> output(pts.size());
+        for(std::size_t i = 0; i < pts.size(); i++)
+            output[i] = pts[i].y() * cols() + pts[i].x();
+        return output;
+    }
+
+    std::vector<Point> GameMap::convert1DIndexToPoint(const std::vector<std::size_t> &pts) const
+    {
+        std::vector<Point> output;
+        output.reserve(1);
+        for(std::size_t i = 0; i < pts.size(); i++)
+        {
+            int y = pts[i] / static_cast<int>(cols());
+            int x = pts[i] % static_cast<int>(cols());
+            output.push_back(Point(x, y));
+        }
+        return output;
+    }
+
     std::vector<Point> GameMap::getNeighboringPoints(const Point& p) const
     {
         std::vector<Point> output;
@@ -119,22 +155,22 @@ namespace ms
 
     std::vector<Point> GameMap::generateMines(std::size_t mines) const
     {
+        const std::vector<std::size_t> emptyNeighbors =
+            convertPointTo1DIndex(getNeighboringPoints(_startPosition));
         srand(static_cast<unsigned int>(time(nullptr)));
-        const std::size_t n = rows() * cols();
-        std::vector<int> randoms(n);
+        const std::size_t n = cols() * rows();
+        std::set<std::size_t> unique_randoms;
         for(std::size_t i = 0; i < n; i++)
-            randoms[i] = static_cast<int>(i);
-        for(std::size_t i = 0; i < n; i++)
+            unique_randoms.insert(i);
+        for(std::size_t i = 0; i < emptyNeighbors.size(); i++)
+            unique_randoms.erase(emptyNeighbors[i]);
+        std::vector<std::size_t> randoms(unique_randoms.begin(), unique_randoms.end());
+        for(std::size_t i = 0; i < randoms.size(); i++)
             for(std::size_t j = 0; j < 10; j++)
-                std::swap(randoms[rand() % n], randoms[rand() % n]);
-        std::vector<Point> output;
-        output.resize(mines);
-        for(std::size_t i = 0; i < mines; i++)
-        {
-            int y = randoms[i] / static_cast<int>(cols());
-            int x = randoms[i] % static_cast<int>(cols());
-            output[i] = Point(x, y);
-        }
-        return output;
+                std::swap(randoms[rand() % randoms.size()], randoms[rand() % randoms.size()]);
+        if(mines > randoms.size())
+            throw std::logic_error("No enough spaces to fill mines");
+        std::vector<Point> output = convert1DIndexToPoint(randoms);
+        return std::vector<Point>(output.begin(), output.begin() + mines);
     }
 }

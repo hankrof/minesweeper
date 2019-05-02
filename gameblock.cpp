@@ -59,4 +59,19 @@ namespace ms
             else
                 return _coveredImage;
     }
+
+    bool GameBlock::isOpen() const
+    {
+        return _open;
+    }
+
+    bool GameBlock::openable() const
+    {
+        return !_flag;
+    }
+
+    bool GameBlock::flag() const
+    {
+        return _flag;
+    }
 }
