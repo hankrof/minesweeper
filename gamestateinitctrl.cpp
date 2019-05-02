@@ -30,11 +30,6 @@ namespace ms
         _pImpl->_mainWindow->initGameEnvir(getEnvironment().get());
     }
 
-    void GameStateInitController::processPaintEvent()
-    {
-        getMainWindow()->paintGameWorld(getGameWorld().get());
-    }
-
     void GameStateInitController::processMouseReleaseEvent(QMouseEvent* event)
     {
         if(event->button() != Qt::LeftButton)

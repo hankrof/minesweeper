@@ -65,6 +65,14 @@ namespace ms
         _map.at(p)->toggleFlag();
     }
 
+    void GameRuler::openAllMines()
+    {
+        for(std::size_t y = 0; y < _map.rows(); y++)
+            for(std::size_t x = 0; x < _map.cols(); x++)
+                if(_map.at(y, x)->isMine())
+                    _map.at(y, x)->open();
+    }
+
     int GameRuler::count3x3Flag(const Point& p)
     {
         int nbFlag = 0;

@@ -10,6 +10,7 @@ namespace ms
     public:
         GameStateControllerContext();
         void setGameCtrl(GameStateController* ctrl);
+        void processSaveSettings(std::size_t rows, std::size_t cols, std::size_t mines);
         void processRestartGame(bool choice);
         void processMouseMoveEvent(QMouseEvent* event);
         void processMousePressEvent(QMouseEvent* event);

@@ -33,9 +33,20 @@ namespace ms
         _pImpl->_ctx->setGameCtrl(ctrl);
     }
 
+    void GameStateController::processSaveSettings(std::size_t rows, std::size_t cols, std::size_t mines)
+    {
+        _pImpl->_rows  = rows;
+        _pImpl->_cols  = cols;
+        _pImpl->_mines = mines;
+    }
+
     void GameStateController::processRestartGame(bool choice)
     {
-        setGameCtrl(new GameStateInitController(*this));
+        if(choice)
+        {
+            setGameCtrl(new GameStateInitController(*this));
+            getMainWindow()->repaint();
+        }
     }
 
     void GameStateController::processMouseMoveEvent(QMouseEvent* event)
@@ -45,10 +56,7 @@ namespace ms
             getGameMap()->at(_lastSelectedPos.y(),
                 _lastSelectedPos.x())->unselect();
         getGameMap()->at(p.y(), p.x())->select();
-        QRect unSelectedButtonRect = cvtQRect(calButtonRect(_lastSelectedPos));
-        QRect selectedButtonRect   = cvtQRect(calButtonRect(p));
-        getMainWindow()->repaint(unSelectedButtonRect);
-        getMainWindow()->repaint(selectedButtonRect);
+        getMainWindow()->repaint();
         _lastSelectedPos = p;
     }
 

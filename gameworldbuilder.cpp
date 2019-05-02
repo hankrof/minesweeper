@@ -80,4 +80,17 @@ namespace ms
         getResult()->getMap()->setup(16, 30, 99, getStartPosition());
         return *this;
     }
+
+    GameWorldCustomModeBuilder::GameWorldCustomModeBuilder(std::size_t rows, std::size_t cols,
+        std::size_t mines, const Point& start)
+        : GameWorldBuilder (start)
+    {
+
+    }
+
+    GameWorldBuilder& GameWorldCustomModeBuilder::buildMap()
+    {
+        getResult()->getMap()->setup(_rows, _cols, _mines, getStartPosition());
+        return *this;
+    }
 }

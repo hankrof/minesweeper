@@ -2,18 +2,21 @@
 #define GAMEDIALOG_H
 #include <QDialog>
 class QLabel;
+class QSpinBox;
+class QLineEdit;
 class QVBoxLayout;
 class QHBoxLayout;
+class QFormLayout;
 class QPushButton;
 namespace ms
 {
     class GameStateControllerContext;
-    class GameDialog : public QDialog
+    class GameResultDialog : public QDialog
     {
         Q_OBJECT
     public:
-        GameDialog(GameStateControllerContext& ctrl);
-        GameDialog& setMessage(QString message);
+        GameResultDialog(GameStateControllerContext& ctrl);
+        GameResultDialog& setMessage(QString message);
     private slots:
         void onGameDialogFinish(int);
     private:
@@ -24,6 +27,26 @@ namespace ms
         QPushButton* _noButton;
     private:
         GameStateControllerContext& _ctrl;
+    };
+
+    class GameSettingsDialog : public QDialog
+    {
+        Q_OBJECT
+    public:
+        GameSettingsDialog(GameStateControllerContext& ctrl);
+    private slots:
+        void valueChangedDensity();
+        void onGameDialogFinish();
+    private:
+        GameStateControllerContext& _ctrl;
+        QFormLayout *_allLayout;
+        QHBoxLayout *_buttonsLayout;
+        QSpinBox    *_rowsSpinBox;
+        QSpinBox    *_colsSpinBox;
+        QSpinBox    *_minesSpinBox;
+        QLineEdit   *_densityEdit;
+        QPushButton* _saveButton;
+        QPushButton* _cancelButton;
     };
 }
 

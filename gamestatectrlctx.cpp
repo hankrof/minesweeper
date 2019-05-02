@@ -13,6 +13,11 @@ namespace ms
         _ctrl.reset(ctrl);
     }
 
+    void GameStateControllerContext::processSaveSettings(std::size_t rows, std::size_t cols, std::size_t mines)
+    {
+        _ctrl->processSaveSettings(rows, cols, mines);
+    }
+
     void GameStateControllerContext::processRestartGame(bool choice)
     {
         _ctrl->processRestartGame(choice);

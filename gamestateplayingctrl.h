@@ -18,6 +18,7 @@ namespace ms
         void processPaintEvent()
             { GameStateController::processPaintEvent();}
     private:
+        void processGameState();
         Point _lastSelectedPos;
         GameRuler _ruler;
     };

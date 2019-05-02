@@ -47,5 +47,17 @@ namespace ms
         GameWorldHardModeBuilder(const Point& start);
         GameWorldBuilder& buildMap();
     };
+
+    class GameWorldCustomModeBuilder : public GameWorldBuilder
+    {
+    public:
+        GameWorldCustomModeBuilder(std::size_t rows, std::size_t cols,
+            std::size_t mines, const Point& start);
+        GameWorldBuilder& buildMap();
+    private:
+        std::size_t _rows;
+        std::size_t _cols;
+        std::size_t _mines;
+    };
 }
 #endif // GAMEWORLDBUILDER_H

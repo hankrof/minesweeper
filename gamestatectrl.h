@@ -18,6 +18,9 @@ namespace ms
         std::shared_ptr<GameWorld>   _gameWorld;
         std::shared_ptr<Environment> _envir;
         std::shared_ptr<Point>       _startPosition;
+        std::size_t                  _rows;
+        std::size_t                  _cols;
+        std::size_t                  _mines;
     };
 
     class GameStateController
@@ -27,6 +30,7 @@ namespace ms
         virtual ~GameStateController();
         GameStateController(const GameStateController& ctrl);
         void setGameCtrl(GameStateController* ctrl);
+        void processSaveSettings(std::size_t rows, std::size_t cols, std::size_t mines);
         void processRestartGame(bool choice);
         virtual void processMouseMoveEvent   (QMouseEvent*) = 0;
         virtual void processMousePressEvent  (QMouseEvent*) = 0;

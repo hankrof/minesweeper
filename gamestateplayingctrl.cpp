@@ -8,7 +8,6 @@
 #include "envir.h"
 #include "bccvtqtutils.h"
 #include <QMouseEvent>
-#include <QDebug>
 namespace ms
 {
 
@@ -25,10 +24,7 @@ namespace ms
         if(event->button() == Qt::LeftButton)
             _ruler.open3x3Blocks(p);
         getMainWindow()->repaint();
-        if(!_ruler.isAlive())
-            setGameCtrl(new GameStateLosingController(*this));
-        else if(_ruler.isWinning())
-            setGameCtrl(new GameStateWinningController(*this));
+        processGameState();
     }
 
     void GameStatePlayingController::processMouseReleaseEvent(QMouseEvent* event)
@@ -49,8 +45,16 @@ namespace ms
             break;
         }
         getMainWindow()->repaint();
+        processGameState();
+    }
+
+    void GameStatePlayingController::processGameState()
+    {
         if(!_ruler.isAlive())
+        {
+            _ruler.openAllMines();
             setGameCtrl(new GameStateLosingController(*this));
+        }
         else if(_ruler.isWinning())
             setGameCtrl(new GameStateWinningController(*this));
     }

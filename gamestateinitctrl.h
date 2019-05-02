@@ -17,7 +17,8 @@ namespace ms
         void processMouseDoubleClickEvent(QMouseEvent* event)
             { GameStateController::processMouseDoubleClickEvent(event);}
         void processMouseReleaseEvent(QMouseEvent*);
-        void processPaintEvent();
+        void processPaintEvent()
+            { GameStateController::processPaintEvent();}
     };
 }
 

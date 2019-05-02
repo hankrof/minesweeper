@@ -464,7 +464,8 @@ main.o: main.cpp gamestatectrlctx.h
 
 mainwindow.o: mainwindow.cpp mainwindow.h \
 		gamescreen.h \
-		gamedialog.h
+		gamedialog.h \
+		gamestatectrlctx.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o mainwindow.o mainwindow.cpp
 
 gamectrl.o: gamectrl.cpp gamectrl.h

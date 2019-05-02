@@ -6,7 +6,8 @@ class QMouseEvent;
 namespace ms
 {
     class GameWorld;
-    class GameDialog;
+    class GameResultDialog;
+    class GameSettingsDialog;
     class GameScreen;
     class Environment;
     class GameStateControllerContext;
@@ -20,9 +21,14 @@ namespace ms
         void paintGameWorld(GameWorld*);
         void execWinningResult();
         void execLosingResult();
+    private slots:
+        void processNewGameButton();
+        void processSettingsButton();
     private:
+        void createToolBars();
         std::unique_ptr<GameScreen> _gameScreen;
-        std::unique_ptr<GameDialog> _gameDialog;
+        std::unique_ptr<GameResultDialog>   _gameResultDialog;
+        std::unique_ptr<GameSettingsDialog> _gameSettingsDialog;
         GameStateControllerContext& _ctrl;
     };
 }

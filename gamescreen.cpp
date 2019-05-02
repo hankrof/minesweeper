@@ -8,7 +8,6 @@
 #include "envir.h"
 #include <QPainter>
 #include <QMouseEvent>
-#include <QDebug>
 namespace ms
 {
     GameScreen::GameScreen(GameStateControllerContext& ctrl, QWidget *parent)

@@ -13,6 +13,7 @@ namespace ms
         bool openSingleBlock(const Point& p);
         bool open3x3Blocks(const Point& center);
         void toggleFlagToBlock(const Point& p);
+        void openAllMines();
     private:
         int count3x3Flag(const Point& p);
         int open(const Point& center);
